@@ -1,8 +1,9 @@
-import ruptures as rpt
+from typing import List, Tuple
+
 import numpy as np
 import pandas as pd
+import ruptures as rpt
 from sklearn.preprocessing import StandardScaler
-from typing import List, Tuple
 
 
 def find_2d_data_bkps(X: List[Tuple[int, int]]) -> List[int]:
@@ -33,7 +34,7 @@ def get_interval_average_bbox(
 def find_idxs_interval(idxs: List[int], bkps: List[int]) -> List[int]:
     def _find_idx_interval(_idx: int) -> int:
         left = 0
-        right = len(bkps) - 2 
+        right = len(bkps) - 2
 
         while left <= right:
             mid = (left + right) // 2

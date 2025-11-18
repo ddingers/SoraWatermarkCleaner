@@ -5,8 +5,8 @@ from loguru import logger
 from ultralytics import YOLO
 
 from sorawm.configs import WATER_MARK_DETECT_YOLO_WEIGHTS
-from sorawm.utils.download_utils import download_detector_weights
 from sorawm.utils.devices_utils import get_device
+from sorawm.utils.download_utils import download_detector_weights
 from sorawm.utils.video_utils import VideoLoader
 
 # based on the sora tempalte to detect the whole, and then got the icon part area.

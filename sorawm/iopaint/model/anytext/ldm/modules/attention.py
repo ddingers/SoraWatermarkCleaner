@@ -1,5 +1,4 @@
 import math
-
 # CrossAttn precision handling
 import os
 from inspect import isfunction
@@ -10,7 +9,8 @@ import torch.nn.functional as F
 from einops import rearrange, repeat
 from torch import einsum, nn
 
-from sorawm.iopaint.model.anytext.ldm.modules.diffusionmodules.util import checkpoint
+from sorawm.iopaint.model.anytext.ldm.modules.diffusionmodules.util import \
+    checkpoint
 
 _ATTN_PRECISION = os.environ.get("ATTN_PRECISION", "fp32")
 
