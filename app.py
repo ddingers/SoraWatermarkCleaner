@@ -5,6 +5,7 @@ from pathlib import Path
 import streamlit as st
 
 from sorawm.core import SoraWM
+from sorawm.schemas import CleanerType
 
 
 def main():
@@ -81,10 +82,36 @@ def main():
         """,
         unsafe_allow_html=True,
     )
-    # Initialize SoraWM
-    if "sora_wm" not in st.session_state:
-        with st.spinner("Loading AI models..."):
-            st.session_state.sora_wm = SoraWM()
+    st.markdown("---")
+
+    # Model selection
+    st.markdown("### ⚙️ Model Settings")
+    
+    col1, col2 = st.columns([2, 3])
+    with col1:
+        model_type = st.selectbox(
+            "Select Cleaner Model:",
+            options=[CleanerType.LAMA, CleanerType.E2FGVI_HQ],
+            format_func=lambda x: {
+                CleanerType.LAMA: "🚀 LAMA (Fast, Good Quality)",
+                CleanerType.E2FGVI_HQ: "💎 E2FGVI-HQ (Slower when not on GPU, Best Quality with time consistency)"
+            }[x],
+            help="LAMA: Fast processing with good quality. E2FGVI-HQ: Slower when not on GPU but highest quality results."
+        )
+    
+    with col2:
+        model_info = {
+            CleanerType.LAMA: "⚡ **Fast processing** - Recommended for most videos. Uses LaMa (Large Mask Inpainting) for quick watermark removal.",
+            CleanerType.E2FGVI_HQ: "🎯 **Highest quality** - Uses temporal flow-based video inpainting. Best for professional results. Slower when not on GPU. Time consistency is guaranteed."
+        }
+        st.info(model_info[model_type])
+
+    # Initialize or reinitialize SoraWM if model changed
+    if "sora_wm" not in st.session_state or st.session_state.get("current_model") != model_type:
+        with st.spinner(f"Loading {model_type.value.upper()} model..."):
+            st.session_state.sora_wm = SoraWM(cleaner_type=model_type)
+            st.session_state.current_model = model_type
+        st.success(f"✅ {model_type.value.upper()} model loaded!")
 
     st.markdown("---")
 

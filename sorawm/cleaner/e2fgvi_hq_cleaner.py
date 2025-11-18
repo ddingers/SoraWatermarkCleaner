@@ -59,7 +59,7 @@ def numpy_to_tensor(frames_np, masks_np):
 # mps doesn't work here.....
 device = get_device()
 if device.type == "mps":
-    logger.warning(f"E2FGVI_HQ Cleaner doesn't support MPS, using CPU instead.")
+    logger.warning(f"E2FGVI_HQ Cleaner doesn't support MPS, using CPU instead. But it is very very slow!!")
     device = torch.device("cpu")
 
 
